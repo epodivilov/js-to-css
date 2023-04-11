@@ -43,6 +43,25 @@ function isNeedTransformValue(propertyName) {
     );
 }
 
+function transformProperties(properties, level = 1) {
+    return Object.entries(properties)
+        .map(([property, value]) => {
+            const propName = transformProperty(property);
+            const propValue = isNeedTransformValue(propName) ? transformValue(value) : value;
+
+            if (typeof value === "object") {
+                return [
+                    `${"".padStart(level * 2, " ")}${propName} {`,
+                    transformProperties(value, level + 1),
+                    `${"".padStart(level * 2, " ")}}`,
+                ].join("\n");
+            }
+
+            return `${"".padStart(level * 2, " ")}${propName}: ${propValue};`;
+        })
+        .join("\n");
+}
+
 const form = document.querySelector("form");
 const output = document.getElementById("output");
 const submitButton = document.querySelector('button[type="submit"]');
@@ -54,22 +73,15 @@ form.addEventListener("submit", (e) => {
     const data = parseStringToObject(js);
 
     const parts = Object.entries(data).map(([cls, properties]) => {
-        const props = Object.entries(properties)
-            .map(([property, value]) => {
-                const propName = transformProperty(property);
-                const propValue = isNeedTransformValue(propName) ? transformValue(value) : value;
-
-                return `${"".padStart(2, " ")}${propName}: ${propValue};`;
-            })
-            .join("\n");
+        const props = transformProperties(properties);
 
         return [`.${cls} {`, props, "}"].join("\n");
     });
 
-    output.textContent = parts.join("");
+    output.textContent = parts.join("\n");
     Prism.highlightAll();
 });
 
-copyButton.addEventListener('click', () => {
+copyButton.addEventListener("click", () => {
     window.navigator.clipboard.writeText(output.textContent);
-})
+});
