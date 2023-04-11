@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert JS to CSS</title>
+    <link rel="stylesheet" href="prism.css">
+    <style>
+        .form {
+            box-sizing: border-box;
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            height: 500px;
+        }
+
+        .form label {
+            flex: 0 0 40%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+
+        .form pre,
+        .form code,
+        .form textarea {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+        }
+
+        .form div {
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="form" action="javascript:void(0);">
+        <label>
+            <span>JS</span>
+            <textarea id="input" name="js">
+        {
+          over: {
+            position: "fixed",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: "0",
+            zIndex: "10000",
+            transition: "opacity 0.4s",
+            backgroundColor: "rgba(255, 255, 255, 0.4)",
+          },
+        }
+      </textarea>
+        </label>
+        <div>
+            <button type="submit">Convert</button>
+            <button type="button">Copy</button>
+        </div>
+        <label>
+            <span>CSS</span>
+            <pre><code id="output" class="language-css"></code></pre>
+        </label>
+    </form>
+
+    <script src="prism.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
